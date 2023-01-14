@@ -19,7 +19,8 @@ Accessing API End-Points
 Running The Server On Local
   1. pip3 install -r requirements.txt
   2. nohup python server.py > log.txt 2>&1 &
-  3. Access the APIs using localhost
+  3. python -m spacy download en
+  4. Access the APIs using localhost
   
     
 Adding a chrome extension
