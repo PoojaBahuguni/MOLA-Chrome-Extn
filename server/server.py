@@ -3,9 +3,11 @@ import os
 import shutil
 import urllib
 
+import flask
 import numpy as np
 import spacy as spacy
 from flask import Flask
+from flask_cors import CORS, cross_origin
 from spacy.language import Language
 from spacy_langdetect import LanguageDetector
 from flask import request
@@ -15,6 +17,7 @@ import warnings
 
 warnings.simplefilter("ignore")
 app = Flask(__name__)
+CORS(app)
 
 path = "cardiffnlp"
 if os.path.exists(path):
@@ -69,6 +72,7 @@ def hello():
 
 @app.route("/api/language-detection", methods=["POST"])
 def detectLanguage():
+    print("detected 1")
     tweets = request.get_json()
     pre_trained_model = spacy.load("en_core_web_sm")
     for tweet in tweets:
@@ -78,6 +82,7 @@ def detectLanguage():
 
 
 @app.route("/api/sentiment-score", methods=["POST"])
+@cross_origin()
 def getSentimentScore():
     tweets = request.get_json()
     for tweet in tweets:
