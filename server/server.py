@@ -3,7 +3,6 @@ import os
 import shutil
 import urllib
 
-import flask
 import numpy as np
 import spacy as spacy
 from flask import Flask
