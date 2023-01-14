@@ -71,12 +71,10 @@ def hello():
 
 @app.route("/api/language-detection", methods=["POST"])
 def detectLanguage():
-    print("detected 1")
     tweets = request.get_json()
     pre_trained_model = spacy.load("en_core_web_sm")
     for tweet in tweets:
         tweet["is_english"] = spacy_language_detection(tweet["tweet_text"], pre_trained_model)['language'] == "en"
-    print("detected")
     return tweets
 
 
@@ -90,8 +88,6 @@ def getSentimentScore():
         output = model(**encoded_input)
         scores = output[0][0].detach().numpy()
         scores = softmax(scores)
-        print("scores")
-        print(scores)
 
         score_result = {}
         score_result["positive"] = str(scores[2])
@@ -100,14 +96,7 @@ def getSentimentScore():
         tweet["sentiment_score"] = score_result
 
         ranking = np.argsort(scores)
-        # ranking = ranking[::-1]
         tweet["detected_mood"] = str(labels[ranking[2]]).upper()
-        # for i in range(scores.shape[0]):
-        #     if(ranking[i] == 0):
-        #         tweet["detected_mood"] = labels[ranking[i]]
-        #     l = labels[ranking[i]]
-        #     s = scores[ranking[i]]
-        #     print(f"{i + 1}) {l} {np.round(float(s), 4)}")
 
         print(tweet)
     return tweets
